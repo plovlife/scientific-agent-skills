@@ -128,6 +128,58 @@ Vollständiger, aus den `SKILL.md`-Frontmattern generierter Katalog: **Anhang A*
 
 ---
 
+## 6. Arena-Betrieb: So nutzt du dieses Dokument pro Aufgabe
+
+Grundprinzip: Jede Arena-Session bekommt eine eigene Sandbox mit Clone dieses Repos auf einem
+Session-Branch (`arena/<id>`). Der Agent kennt §1–§5 nicht automatisch — **ein Satz in der
+Erstanweisung genügt**, ihn darauf zu verpflichten. Nach Merge dieses Docs in `main` gilt es dort
+für alle künftigen Sessions ohnehin als Repo-Standard neben `AGENTS.md`.
+
+### Session-Start (Copy-Paste in jede neue Session)
+
+> Arbeite nach `ARENA_WORKFLOW.md` im Repo-Root: Skill aus Anhang A wählen, `SKILL.md` lesen,
+> Boundaries + Scripts ausführen, Output mit Blöcken *Quellen / Annahmen / Offen-ToDo* liefern,
+> Repo-Änderungen als klarer Commit auf dem Session-Branch.
+
+### Prompt-Rezepte für typische Aufgaben
+
+- **Schreiben:** „Draftiere Einleitung + Ergebnisse für [Thema] mit `scientific-writing`;
+  nutze nur die angehängten Quellen, alles unbelegte als `MISSING` markieren."
+- **Recherche:** „Belegpaket zu [Frage] mit `research-lookup` (Fallback `literature-review`),
+  Ergebnis als Evidence-Matrix Claim→Quelle→Locator."
+- **Analyse:** „EDA mit `exploratory-data-analysis`, dann `statistical-analysis`: Test vorher
+  festlegen, `assumption_checks.py` + Effektstärken, APA-Block + Figur mit
+  `scientific-visualization`."
+- **Unklar:** „Welcher Skill aus Anhang A passt zu [Aufgabe]? Lies sein `SKILL.md` und nenne
+  mir die Boundaries, bevor du loslegst."
+
+### Daten & Vertraulichkeit
+
+- Dateien an die Nachricht anhängen oder in die Sandbox legen; der Agent liest sie lokal.
+- Unveröffentlichte Manuskripte/Reviews/PHI: Skills wie `peer-review` und `scientific-writing`
+  erzwingen *local-only* — nicht nach extern senden, auch nicht per Chat-/Such-Tool, ohne
+  explizite Freigabe (§2 Schritt 3).
+- API-Schlüssel gehören **nicht** in den Chat. Skills ohne Key weiter mit lokalen CLIs
+  (`scripts/`) arbeiten lassen; Live-Recherche dann über die Arena-eigenen Tools; deren Ergebnisse
+  als „nicht skill-verifiziert" kennzeichnen.
+
+### Ergebnisbehandlung pro Session
+
+1. Deliverable (Datei) + Antwort mit Quellen/Annahmen/ToDo-Blöcken.
+2. Analyse-/Code-Nebenprodukte unter `outputs/<task>/` ablegen, nie unter `skills/`.
+3. Änderungen: ein Commit pro logischem Schritt auf dem Session-Branch, Push, PR-Vorschlag.
+4. Folgeaufgabe in derselben Session: Kontext bleibt; neue Session: den Start-Baustein (§6)
+   erneut einfügen.
+
+### Eskalationsregeln für den Agenten (stichwortartig einforderbar mit „Workflow!")
+
+- Kein passender Skill → sagen, nicht erzwingen; besten Kompromiss + Begründung liefern.
+- Skill widerspricht Nutzerwunsch (z. B. „Abbildungen gefälliger machen" vs.
+  `scientific-visualization`-Guardrails) → Grenze benennen, konforme Alternative anbieten.
+- Beleg nicht verifizierbar → Behauptung zurückhalten, `UNVERIFIED`-Platzhalter setzen.
+
+---
+
 ## Anhang A — Vollständiger Skill-Katalog (163)
 
 Generiert am 2026-08-31 aus dem jeweiligen `description`-Feld der `SKILL.md`-Frontmatter
